@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </head>
+  <body>
+    <input type="checkbox" id="check">
+    <label for="check">
+      <i class="fas fa-bars" id="btn"></i>
+      <i class="fas fa-times" id="cancel"></i>
+    </label>
+    <div class="sidebar">
+    <header>Know Your Lockdown</header>
+  <ul>
+<li><a href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a></li>
+<li><a href="{% url 'quiz' %}"><i class="fa fa-question-circle"></i>Quiz</a></li>
+<li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i>Map</a></li>
+<li><a href="#"><i class="fa fa-signal" aria-hidden="true"></i>Analysis</a></li>
+<li><a href="#"><i class="fas fa-sliders-h"></i>Services</a></li>
+<li><a href="#"><i class="far fa-envelope"></i>Contact</a></li>
+</ul>
+</div>
+
+<div class="container-fluid">
+    {% include 'quiz/messages.html' %}
+</div>
+<section>
+  {% block content %}
+    
+  {% endblock  %}
+</section>
+  </body>
+</html>
