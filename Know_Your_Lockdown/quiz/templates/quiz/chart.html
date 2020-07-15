@@ -284,12 +284,10 @@ $('#secondsel').addClass('topmar');
       rtcured = {{rtcured}};
       rtactive = {{rtactive}};
       rtdeaths = {{rtdeaths}};
-      active_gains_live.push(0);
-    cured_gains_live.push(0);
-    deaths_gains_live.push(0);
+      
       
       for (i =1 ;i < rtactive.length-1;i++){
-            if(rtactive[i+1]!=0){
+            if(rtactive[i+1]!=0 & rtactive[i]!=0){
             active_gains_live.push(rtactive[i+1]-rtactive[i]);
             cured_gains_live.push(rtcured[i+1]-rtcured[i]);
             deaths_gains_live.push(rtdeaths[i+1]-rtdeaths[i]);
