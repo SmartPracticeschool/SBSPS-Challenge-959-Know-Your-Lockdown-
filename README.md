@@ -9,3 +9,17 @@
 
  <li>It is a one stop destination to get an overview of the effect of COVID-19 in India. Reports can be generated as required to find general trends by applying various filters ( eg: date wise filter to find how each state/district reacted in the particular time period).</li>
 </ul>
+
+<h2>Technologies Used</h2>
+<ul>
+ <li><b>Django</b></li>
+ <li><b>Python</b></li>
+ <li><b>Pandas</b></li>
+ <li><b>VADER Sentimet Analysis</b></li>
+ <li><b>Tweepy & Twitter API</b></li>
+ <li><b>Google Sheets API</b></li>
+ <li><b>HTML</b></li>
+ <li><b>CSS</b></li>
+ <li><b>JavaScript & Jquery</b></li>
+ <li><b>Apexcharts</b></li>
+</ul>
