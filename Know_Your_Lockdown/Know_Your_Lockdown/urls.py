@@ -16,10 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from quiz import views as quiz_views
+from django.conf import settings
+from django.urls import include, path
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('quiz/',quiz_views.show_quiz, name='quiz'),
-    path('quiz_2/',quiz_views.show_quiz_2, name='quiz_2'),
-    path('',quiz_views.home, name='home'),
+    path('',quiz_views.map, name='home'),
+    path('chart/',quiz_views.get_chart, name='chart'),
+    path('submit/',quiz_views.submit, name='submit'),
+    path('getdata/',quiz_views.getdata, name='getdata'),
+    path('info/',quiz_views.info,name = 'info'),
+    path('map/',quiz_views.map,name = 'map'),
+    path('getcount/',quiz_views.getcount, name='getcount')
 ]
+
