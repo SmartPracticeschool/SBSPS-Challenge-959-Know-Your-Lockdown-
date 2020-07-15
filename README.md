@@ -28,7 +28,7 @@
  <li><b>HTML</b></li>
  <li><b>CSS</b></li>
  <li><b>JavaScript & Jquery</b></li>
- <li><b>Apexcharts</b></li>
+ <li><b>Apexcharts.js</b></li>
 </ul>
 
 <h2>To run the program:</h2>
