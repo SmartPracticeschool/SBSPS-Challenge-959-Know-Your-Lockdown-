@@ -116,7 +116,7 @@ function getRadialOptions(data1,data2,data3,title,name1,name2,name3){
               offsetX: 0,
               foreColor: "#fff"
             },
-            colors : ['#2eba00','#ffcc02','#7f0101'],
+            colors : ['#7f0101','#2eba00','#ffcc02'],
             plotOptions: {
               radialBar: {
                 inverseOrder: false,
