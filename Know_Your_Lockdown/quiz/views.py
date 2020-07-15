@@ -48,6 +48,12 @@ def show_quiz(request):
     age_percent = (age/lockdown_yes)*100
     age_below_percent = (age_below/lockdown_yes)*100
     age_above_percent = (age_above/lockdown_yes)*100
+    sentiment_ws =gc.open('Sentiment live').worksheet('Master')
+    live_sentiment = pd.DataFrame(sentiment_ws.get_all_records())
+    pos_sent = live_sentiment['positive_count'].sum()
+    neu_sent = live_sentiment['neutral_count'].sum()
+    neg_sent = live_sentiment['negative_count'].sum()
+    total_sent = pos_sent + neg_sent + neu_sent 
     context = {
         'yes': yes_percent,
         'no':no_percent,
@@ -120,6 +126,12 @@ def get_chart(request):
     live_patient = pd.DataFrame(ws_p.get_all_records())
     rtpos,rtneu,rtneg,rt=get_real_time_data(live_sentiment,'sentiment')
     rtcured,rtactive,rtdeaths,rt= get_real_time_data(live_patient[live_patient['District']=='Total'],'corona')
+    cdf,state_df =get_country_data()
+    patient_total,patient_top10 = total_patient()
+    pos_sent = live_sentiment['positive_count'].sum()
+    neu_sent = live_sentiment['neutral_count'].sum()
+    neg_sent = live_sentiment['negative_count'].sum()
+    total_sent = pos_sent + neg_sent + neu_sent 
     context = {
         'cdf':cdf,
         'state_df':state_df,
@@ -148,6 +160,11 @@ def get_chart(request):
 
 #get data of a state
 def get_location_data(state):
+    ws = gc.open("Sentiment").worksheet("Master")
+    df = pd.DataFrame(ws.get_all_records())
+
+    ws2 = gc.open("Corona Patient").worksheet("Master")
+    df_patient  = pd.DataFrame(ws2.get_all_records())
     sdf = pd.DataFrame(columns=['Date','pos','neu','neg'])
     state_patient = pd.DataFrame(columns=['Date','total','active','cured','deaths'])
     data= df[df['State']==state]
@@ -332,7 +349,8 @@ def getdata(request):
         total_sent = pos_sent + neg_sent + neu_sent
         district_sentiment, district_patient = get_district_data(district,state)
     sdf,state_patient = get_location_data(state)
-    
+    cdf,state_df =get_country_data()
+    patient_total,patient_top10 = total_patient()
     context = {
         'sdf':sdf,
         'cdf':cdf,
@@ -374,6 +392,27 @@ def info(request):
     active_patient_count = datacount['Active'].max()
     cured_patient_count = datacount['Cured'].max()
     death_patient_count = datacount['Deaths'].max()
+    real_tweet_ws =gc.open('Real time tweets').worksheet('Master')
+    data = pd.DataFrame(real_tweet_ws.get_all_records())
+
+    positive_data = data[data['sentiment']=='positive']
+    negative_data = data[data['sentiment']=='negative']
+    pos_ids = positive_data['tweetid'].unique()
+    neg_ids = negative_data['tweetid'].unique()    
+    pos_ids = pos_ids.tolist()
+    neg_ids = neg_ids.tolist()    
+    pos_random_ids = random.sample(pos_ids,6)
+    neg_random_ids = random.sample(neg_ids,6)
+    #get latetst news
+    data = get_news()
+    datanews = random.sample(data,6)
+    number_pos = []
+    number_neg = []
+    #to avoid rounding off of tweetid
+    for id in pos_random_ids:
+        number_pos.append(format(id,"0.0f"))
+    for id in neg_random_ids:
+        number_pos.append(format(id,"0.0f"))
     context = {
         'allowed_services': allowed_services,
         'data':datanews,
@@ -392,6 +431,12 @@ def info(request):
 
 #tableau maps for visualzation
 def map(request):
+    sentiment_ws =gc.open('Sentiment live').worksheet('Master')
+    live_sentiment = pd.DataFrame(sentiment_ws.get_all_records())
+    pos_sent = live_sentiment['positive_count'].sum()
+    neu_sent = live_sentiment['neutral_count'].sum()
+    neg_sent = live_sentiment['negative_count'].sum()
+    total_sent = pos_sent + neg_sent + neu_sent 
     context = {
         'tcount':total_sent,
         'theading':'Sentiments',
@@ -429,6 +474,26 @@ def getcount(request):
         active_patient_count = datacount['Active'].max()
         cured_patient_count = datacount['Cured'].max()
         death_patient_count = datacount['Deaths'].max()
+    real_tweet_ws =gc.open('Real time tweets').worksheet('Master')
+    data = pd.DataFrame(real_tweet_ws.get_all_records())
+    positive_data = data[data['sentiment']=='positive']
+    negative_data = data[data['sentiment']=='negative']
+    pos_ids = positive_data['tweetid'].unique()
+    neg_ids = negative_data['tweetid'].unique()    
+    pos_ids = pos_ids.tolist()
+    neg_ids = neg_ids.tolist()    
+    pos_random_ids = random.sample(pos_ids,6)
+    neg_random_ids = random.sample(neg_ids,6)
+    #get latetst news
+    data = get_news()
+    datanews = random.sample(data,6)
+    number_pos = []
+    number_neg = []
+    #to avoid rounding off of tweetid
+    for id in pos_random_ids:
+        number_pos.append(format(id,"0.0f"))
+    for id in neg_random_ids:
+        number_pos.append(format(id,"0.0f"))
     context = {
         'allowed_services': allowed_services,
         'data':datanews,
@@ -445,47 +510,3 @@ def getcount(request):
         'district':district
         }
     return render(request, 'quiz/info.html', context)
-
-ws = gc.open("Sentiment").worksheet("Master")
-df = pd.DataFrame(ws.get_all_records())
-
-ws2 = gc.open("Corona Patient").worksheet("Master")
-df_patient  = pd.DataFrame(ws2.get_all_records())
-
-sentiment_ws =gc.open('Sentiment live').worksheet('Master')
-live_sentiment = pd.DataFrame(sentiment_ws.get_all_records())
-ws_p = gc.open("Real time patients").worksheet("Master")
-live_patient = pd.DataFrame(ws_p.get_all_records())
-pos_sent = live_sentiment['positive_count'].sum()
-neu_sent = live_sentiment['neutral_count'].sum()
-neg_sent = live_sentiment['negative_count'].sum()
-total_sent = pos_sent + neg_sent + neu_sent    
-    
-rtcured,rtactive,rtdeaths,rt= get_real_time_data(live_patient[live_patient['District']=='Total'],'corona')
-cdf,state_df =get_country_data()
-patient_total,patient_top10 = total_patient()
-
-real_tweet_ws =gc.open('Real time tweets').worksheet('Master')
-tweets = pd.DataFrame(real_tweet_ws.get_all_records())
-
-dates = tweets['date'].unique()
-date = dates.tolist().pop()
-data = tweets[tweets['date']==date]
-positive_data = data[data['sentiment']=='positive']
-negative_data = data[data['sentiment']=='negative']
-pos_ids = positive_data['tweetid'].unique()
-neg_ids = negative_data['tweetid'].unique()    
-pos_ids = pos_ids.tolist()
-neg_ids = neg_ids.tolist()    
-pos_random_ids = random.sample(pos_ids,6)
-neg_random_ids = random.sample(neg_ids,6)
-#get latetst news
-data = get_news()
-datanews = random.sample(data,6)
-number_pos = []
-number_neg = []
-#to avoid rounding off of tweetid
-for id in pos_random_ids:
-    number_pos.append(format(id,"0.0f"))
-for id in neg_random_ids:
-    number_pos.append(format(id,"0.0f"))
