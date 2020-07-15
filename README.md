@@ -2,9 +2,10 @@
 
 <h3><a href = "https://knowyourlockdown.us-south.cf.appdomain.cloud/"> Click here to view working Website</a></h3>
 <br>
-![](https://i.imgur.com/N0B3N4u.png)
+<img src = "https://i.imgur.com/N0B3N4u.png">
 <br>
-![](https://i.imgur.com/qZfMwvy.gif)
+<img src = "https://i.imgur.com/qZfMwvy.gif">
+
 
 <h2>Demonstration Video:</h2>
 
