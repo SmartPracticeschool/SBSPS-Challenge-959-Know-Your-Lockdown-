@@ -23,3 +23,16 @@
  <li><b>JavaScript & Jquery</b></li>
  <li><b>Apexcharts</b></li>
 </ul>
+
+<h2>To run the program:</h2>
+<ol>
+ <li>Paste your Twitter API credentials in cred.py</li>
+ <li>Generate the credentials json file from Google Sheets API and replace ibm-hack...json file with it</li>
+ <li>Install the required pacakeges with `pip install requirements.txt`</li>
+ <li>Open a terminal in Know_Your_Lockdown folder</li>
+ <li>Run the following command : `python manage.py runserver`</li>
+ <li>That's it! The program is now runing. </li>
+ <li>Type 127.0.0.1:8000 in browser to access the dashboard.</li>
+ <li>To extract tweeets and patient related data run realtime.py file. </li>
+ <li>For real time data keep the realtime.py file running in background.</li>
+</ol>
